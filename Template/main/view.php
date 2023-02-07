@@ -1,1 +1,2 @@
-<h1>Page view.php</h1>
+<h1><?= $Post->name ?></h1>
+<p><?= $Post->content ?></p>

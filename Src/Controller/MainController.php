@@ -2,26 +2,18 @@
 
 class MainController extends Controller
 {
-    public function view()
+    public function view($id)
     {
-        // $this->set(array(
-        //     'phrase' => 'Bonjour',
-        //     'nom' => 'John Doe'
-        // ));
-
-        // $this->render('index');
-        
         $this->loadModel('Post');
-        
-        $Post = $this->Post->find(array(
-            'conditions' => 'id = 1'
-        ));
-        print_r($Post);
+        $Post = $this->Post->findFirst(array(
+            'conditions' => array('id' => $id)
+            )
+        );
 
-        
-        
+        if(empty($Post)) {
+            $this->e404('Error');
+        }
 
-
+        $this->set('Post', $Post);
     }
-    
 }

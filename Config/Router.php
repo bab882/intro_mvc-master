@@ -19,7 +19,7 @@ class Router
             'params' => array_slice($params, 2)
         );
         return $r;
-        */ 
+        */
 
         //print_r($request);
         $request->controller = $params[0];
@@ -30,3 +30,4 @@ class Router
    }
 }
 
+//YO
