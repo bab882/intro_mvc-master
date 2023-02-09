@@ -21,7 +21,7 @@ class PostsController extends Controller{
 	function view($id,$slug){
 		$this->loadModel('Post');
 		$d['post']  = $this->Post->findFirst(array(
-			'fiel__DS__'	 => 'id,slug,content,name',
+			'fields'	 => 'id,slug,content,name',
 			'conditions' => array('online' => 1,'id'=>$id,'type'=>'post')
 		)); 
 		if(empty($d['post'])){
@@ -33,5 +33,33 @@ class PostsController extends Controller{
 		$this->set($d);
 	}
 
+	/**
+	 * Admin
+	 */
 	
+	 function admin_index()
+	 {
+		$perPage = 10; 
+		$this->loadModel('Post');	
+		$condition = array('type'=>'post'); 
+
+		$d['posts'] = $this->Post->find(array(
+			'conditions' => $condition,
+			'limit' => ($perPage*($this->request->page-1)).','.$perPage
+		));
+
+		
+
+		$d['total'] = $this->Post->findCount($condition); 
+		$d['page'] = ceil($d['total'] / $perPage);
+		$this->set($d); 
+	 }
+
+	 function admin_delete($id)
+	 {
+		$this->loadModel('Post');
+		$this->Post->delete($id);
+		$this->Session->setFlash('Le contenu à bien été supprimé');
+		$this->redirect('admin/posts/index');
+	 }
 }

@@ -45,11 +45,11 @@ class Model{
 	public function find($req){
 		$sql = 'SELECT ';
 
-		if(isset($req['fiel__DS__'])){
-			if(is_array($req['fiel__DS__'])){
-				$sql .= implode(', ',$$req['fiel__DS__']);
+		if(isset($req['fields'])){
+			if(is_array($req['fields'])){
+				$sql .= implode(', ',$$req['fields']);
 			}else{
-				$sql .= $req['fiel__DS__']; 
+				$sql .= $req['fields']; 
 			}
 		}else{
 			$sql.='*';
@@ -94,11 +94,16 @@ class Model{
 
 	public function findCount($conditions){
 		$res = $this->findFirst(array(
-			'fiel__DS__' => 'COUNT('.$this->primaryKey.') as count',
+			'fields' => 'COUNT('.$this->primaryKey.') as count',
 			'conditions' => $conditions
 			));
 		return $res->count;  
 	}
 
+	public function delete($id)
+	{
+		$sql = "DELETE FROM id {$this->table} WHERE {$this->primaryKey} = $id";
+		$this->db->query($sql);
+	}
 
 }
