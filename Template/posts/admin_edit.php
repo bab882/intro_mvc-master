@@ -5,7 +5,8 @@
 <form action="<?= Router::url('admin/posts/edit') ?>" method="post">
    <?= $this->Form->input('name', 'titre'); ?>
    <?= $this->Form->input('content', 'contenu', array('type' => 'textarea',
-                                                            'row' => 5,
-                                                                'col' => 10
+                                                            'rows' => 30,
+                                                                'cols' => 50
                                                     )); ?>
+    <?= $this->Form->input('online', 'en ligne', array('type' => 'checkbox'));?>                                                
 </form>
