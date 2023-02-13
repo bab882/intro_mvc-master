@@ -3,6 +3,7 @@ class Model{
 	
 	static $connections = array(); 
 
+	public $id;
 	public $conf = 'default';
 	public $table = false; 
 	public $db; 
@@ -107,6 +108,42 @@ class Model{
 	}
 	public function save($data)
 	{
-		$sql = "UPDATE FROM {$this->table} WHERE {$this->primaryKey} ="
+		// Pour récupérer les id
+		$key = $this->primaryKey;
+		// Les champs qui seront présent dans la base de données.
+		$fields = [];
+		// La variables pour créer un nouveau tableau
+		$d = [];
+
+		foreach($data as $k => $v)
+		{
+			if($k != $this->primaryKey)
+			{
+				// On va créer nos champs dans la base de données
+				$fields[] = "$k=:$k";
+
+				// Dans le tableau d on va y mettre sa valeur
+				$d[":$k"] = $v;
+			}
+			elseif(!empty($v))
+			{
+				// Pour nous retourner notre clé et notre valeur
+				$d[":$k"] = $v;
+			}
+		}
+		// On vérifie si il y a des données dans la data->key
+		if(isset($data->$key) && !empty($data->$key))
+		{
+			$sql = 'UPDATE '.$this->table.' SET '.implode(',', $fields).' WHERE '.$key.' =:' .$key;
+			$this->id = $data->$key;
+			$action = 'update';
+		}
+		// Pour inserer dans la base de données
+		else 
+		{
+			$sql = 'INSERT INTO '.$this->table.' SET '.implode(',', $fields);
+			$action = 'insert';
+		}
+
 	}
 }
