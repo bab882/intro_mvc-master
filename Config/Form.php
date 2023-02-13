@@ -10,13 +10,25 @@ class Form
         
     }
 
-    public function input($name, $label)
+    public function input($name, $label, $options = [])
     {
-        echo '<div class="clearfix">
+        $html = '<div class="clearfix">
                 <label for="input'.$name.'">'.$label.'</label>
-                    <div class="input">
-                     <input type="text" name="'.$name.'" value="" id="input'.$name.'">
-                    </div>
-                </div>';
+                    <div class="input"> '; 
+
+        // input simple
+        if(!isset($options['type'])) 
+        {
+            $html .= ' <input type="text" name="'.$name.'" value="'.$this->controller->request->data->$name.'" id="input'.$name.'">';
+        }      
+        // text area
+        elseif($options['type'] = 'textarea')
+        {
+            $html .= ' <textarea type="" name="'.$name.'" id="input'.$name.'">'.$this->controller->request->data->$name.'</textarea>';
+        }     
+        $html .= '  </div>
+                    </div>';   
+                    
+        return $html;
     }
 }

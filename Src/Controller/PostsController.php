@@ -60,9 +60,10 @@ class PostsController extends Controller{
 	function admin_edit($id)
 	{
 		$this->loadModel('Post');
-		$d['post'] = $this->Post->findFirst(array(
-			'conditions' => array($id => 5)));
-			$this->set($d);
+		// Pour créer un objet, on va le mapper avec notre controller
+		$this->request->data = $this->Post->findFirst(array(
+			'conditions' => array('id'=> $id)));
+			
 	}
 	
 }
