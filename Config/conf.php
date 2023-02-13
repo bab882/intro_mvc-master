@@ -1,6 +1,6 @@
 <?php
-class Conf{
-	
+class Conf
+{
 	static $debug = 1; 
 
 	static $databases = array(
@@ -12,10 +12,7 @@ class Conf{
 			'password'	=> ''
 		)
 	);
-
-
 }
-
 Router::prefix('cockpit', 'admin');
 Router::connect('/','posts/index');
 Router::connect('blog/:slug-:id','posts/view/id:([0-9]+)/slug:([a-z0-9\-]+)');

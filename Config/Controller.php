@@ -90,13 +90,11 @@ class Controller{
 	/**
 	* Redirect
 	**/
-	function redirect($url,$code){
+	function redirect($url,$code = null){
 		if($code == 301){
 			header("HTTP/1.1 301 Moved Permanently");
 		}
 		header("Location: ".Router::url($url)); 
 	}
-
-
 }
 ?>

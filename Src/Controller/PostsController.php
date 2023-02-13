@@ -36,30 +36,33 @@ class PostsController extends Controller{
 	/**
 	 * Admin
 	 */
-	
-	 function admin_index()
-	 {
+	function admin_index()
+	{
 		$perPage = 10; 
 		$this->loadModel('Post');	
 		$condition = array('type'=>'post'); 
-
 		$d['posts'] = $this->Post->find(array(
 			'conditions' => $condition,
 			'limit' => ($perPage*($this->request->page-1)).','.$perPage
 		));
-
-		
-
 		$d['total'] = $this->Post->findCount($condition); 
 		$d['page'] = ceil($d['total'] / $perPage);
 		$this->set($d); 
-	 }
+	}
 
-	 function admin_delete($id)
-	 {
+	function admin_delete($id)
+	{
 		$this->loadModel('Post');
-		$this->Post->delete($id);
-		$this->Session->setFlash('Le contenu à bien été supprimé');
+		//$this->Post->delete($id);
+		$this->Session->setFlash("Le contenu a bien été supprimé !");
 		$this->redirect('admin/posts/index');
-	 }
+	}
+	function admin_edit($id)
+	{
+		$this->loadModel('Post');
+		$d['post'] = $this->Post->findFirst(array(
+			'conditions' => array($id => 5)));
+			$this->set($d);
+	}
+	
 }
