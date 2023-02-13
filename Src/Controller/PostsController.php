@@ -60,15 +60,18 @@ class PostsController extends Controller{
 	function admin_edit($id = null)
 	{	
 		$this->loadModel('Post');
-		if($this->request->data)
-		{
-			$this->Post->save($this->request->data);
+		$d['id'] = '';
+
+		// Pour valider ses posts 
+		if($this->Post->validates($this->request->data))
+		{	
+			// Faire notre validation de données
+			// On va declarer le validate dans le model.php
 		}
-		
-		// Pour créer un objet, on va le mapper avec notre controller
-		$this->request->data = $this->Post->findFirst(array(
-			'conditions' => array('id'=> $id)));
-			
+		else
+		{
+			$this->Session->setFlash("Merci de corriger vos informations", 'erreur');
+		}		
 	}
 	
 }

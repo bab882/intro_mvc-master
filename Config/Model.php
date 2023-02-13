@@ -1,5 +1,9 @@
 <?php
-class Model{
+
+use Form;
+
+class Model
+{
 	
 	static $connections = array(); 
 
@@ -7,7 +11,10 @@ class Model{
 	public $conf = 'default';
 	public $table = false; 
 	public $db; 
-	public $primaryKey = 'id'; 
+	public $primaryKey = 'id';
+	public $validate = []; 
+	public $errors = [];
+	
 
 	public function __construct(){
 		// J'initialise qques variable
@@ -144,6 +151,51 @@ class Model{
 			$sql = 'INSERT INTO '.$this->table.' SET '.implode(',', $fields);
 			$action = 'insert';
 		}
+		$pre = $this->db->prepare($sql);
+		$pre->execute($d);
 
+		if($action == 'insert')
+		{
+			$this->id = $this->db->lastInsertId();
+		}
+	}
+	public function validates($data)
+	{
+		$errors = [];
+		foreach($this->validate as $k => $v)
+		{
+			// On va ajouter 3 conditions
+			if(!isset($data->$k))
+			{
+				$errors[$k] = $v['message'];
+			}
+			else
+			{	
+				// Pour laisser un message d'erreur en cas de champs non rempli
+				if($v['rule'] == 'notEmpty')
+				{
+					if(empty($data->$k))
+					{
+						$errors[$k] = $v['message'];
+					}
+				}
+				elseif(!preg_match('/^'.$v['rule'].'$/', $data->$k))
+				{
+					$errors[$k] = $v['message'];
+				}
+			}
+		}
+		$this->errors = $errors;
+		
+		// envoyer le message à notre formulaire
+		if(isset($this->Form))
+		{
+			$this->Form->errors = $errors;
+		}
+		if(empty($errors))
+		{
+			return true;
+		}
+		return false;
 	}
 }
