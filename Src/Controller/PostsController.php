@@ -57,9 +57,14 @@ class PostsController extends Controller{
 		$this->Session->setFlash("Le contenu a bien été supprimé !");
 		$this->redirect('admin/posts/index');
 	}
-	function admin_edit($id)
-	{
+	function admin_edit($id = null)
+	{	
 		$this->loadModel('Post');
+		if($this->request->data)
+		{
+			$this->Post->save($this->request->data);
+		}
+		
 		// Pour créer un objet, on va le mapper avec notre controller
 		$this->request->data = $this->Post->findFirst(array(
 			'conditions' => array('id'=> $id)));

@@ -12,6 +12,19 @@ class Form
 
     public function input($name, $label, $options = [])
     {
+        if(!isset($this->controller->request->data->$name))
+        {
+            $value = '';
+        }
+        else
+        {
+            $value = $this->controller->request->data->$name;
+        }
+        
+        if($label == 'hidden')
+        {
+            return '<input type="hidden" name="'.$name.'" value="'.$value.'">';
+        }
         $html = '<div class="clearfix">
                 <label for="input'.$name.'">'.$label.'</label>
                     <div class="input"> '; 
@@ -33,13 +46,14 @@ class Form
             $html .= ' <input type="text" name="'.$name.'" value="'.$this->controller->request->data->$name.'" id="input'.$name.'" '.$attr.'>';
         }      
         // text area
-        elseif($options['type'] = 'textarea')
+        elseif($options['type'] == 'textarea')
         {
             $html .= ' <textarea type="" name="'.$name.'" id="input'.$name.'" '.$attr.'>'.$this->controller->request->data->$name.'</textarea>';
         } 
-        elseif($options['type'] = 'checkbox')
+        elseif($options['type'] == 'checkbox')
             {
-                $html .= '<input type="hidden" name="'.$name.'" value="0">';
+                $html .= '<input type="hidden" name="'.$name.'" value="0"> 
+                          <input type="checkbox" name="'.$name.'" value="1" '.(empty($value)? '' : 'checked').'>';
             }    
         $html .= '  </div>
                     </div>';   

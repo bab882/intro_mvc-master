@@ -105,4 +105,8 @@ class Model{
 		$sql = "DELETE FROM DESIRE {$this->table} WHERE {$this->primaryKey} = $id";
 		$this->db->query($sql);
 	}
+	public function save($data)
+	{
+		
+	}
 }
