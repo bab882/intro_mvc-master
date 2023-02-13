@@ -47,7 +47,7 @@ class Model{
 
 		if(isset($req['fields'])){
 			if(is_array($req['fields'])){
-				$sql .= implode(', ',$$req['fields']);
+				$sql .= implode(', ',$req['fields']);
 			}else{
 				$sql .= $req['fields']; 
 			}
@@ -102,11 +102,11 @@ class Model{
 
 	public function delete($id)
 	{
-		$sql = "DELETE FROM DESIRE {$this->table} WHERE {$this->primaryKey} = $id";
+		$sql = "DELETE FROM {$this->table} WHERE {$this->primaryKey} = $id";
 		$this->db->query($sql);
 	}
 	public function save($data)
 	{
-		
+		$sql = "UPDATE FROM {$this->table} WHERE {$this->primaryKey} ="
 	}
 }
