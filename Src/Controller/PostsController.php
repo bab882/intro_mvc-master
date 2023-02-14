@@ -62,7 +62,7 @@ class PostsController extends Controller{
 		$this->loadModel('Post');
 		$d['id'] = '';
 
-				 
+		// Indique qu'il y a bien de la données dans les input	 
 		if ($this->request->data) 
 		{	
 			// Pour valider ses posts
@@ -86,7 +86,17 @@ class PostsController extends Controller{
 			} else {
 				$this->Session->setFlash("Merci de corriger vos informations", 'erreur');
 			}
-		}		
+		}
+		// pour avoir de l'affichage dans les input
+		elseif($id)
+		{
+			$this->request->data = $this->Post->findFirst(array(
+				'conditions' => array('id' => $id)
+			));
+
+			$d['id'] = $id;
+		}
+		$this->set($d); 		
 	}
 	
 }

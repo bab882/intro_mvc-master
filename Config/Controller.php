@@ -17,6 +17,8 @@ class Controller{
 		if($request){
 			$this->request = $request; 	// On stock la request dans l'instance			
 		}
+		// J'importe le Hook.php pour la redirection de mon admin.php
+		require __ROOT__.__DS__.'Config'.__DS__.'Hook.php';
 	}
 
 
@@ -61,8 +63,14 @@ class Controller{
 			$file = __ROOT__.__DS__.'Src'. __DS__.'Model' . __DS__.$name.'.php'; 
 			require_once($file);
 			$this->$name = new $name(); 
-
+		} 
+		// Pour faire passer les formulaires dans le loadModel
+		if(isset($this->Form))
+		{	
+			// On va le charger dans un objet
+			$this->$name->Form = $this->Form;
 		}
+		
 
 	}
 
