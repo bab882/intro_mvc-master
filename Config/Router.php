@@ -112,4 +112,10 @@ class Router
 		}
 		return __BASE_URL__.'/'.$url;
 	}
+
+	static function webroot($url)
+	{
+		trim($url, '/');
+		return __BASE_URL__.'/'.$url;
+	}
 }

@@ -54,7 +54,7 @@ class Form
         // input simple
         if(!isset($options['type'])) 
         {
-            $html .= ' <input type="text" name="'.$name.'" value="'.$this->controller->request->data->$name.'" id="input'.$name.'" '.$attr.'>';
+            $html .= ' <input type="text" name="'.$name.'" value="'.$this->controller->request->data->$name.'" id="input '.$name.'" '.$attr.'>';
         }      
         // text area
         elseif($options['type'] == 'textarea')
