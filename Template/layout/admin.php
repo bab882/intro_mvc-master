@@ -6,7 +6,6 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css">
     </head> 
     <body>       
-      
         <div class="topbar" style="position:static"> 
           <div class="topbar-inner"> 
             <div class="container"> 
@@ -24,6 +23,5 @@
             <?php echo $this->Session->flash(); ?>
         	<?php echo $content_for_layout; ?>
         </div>
-         
     </body> 
 </html>

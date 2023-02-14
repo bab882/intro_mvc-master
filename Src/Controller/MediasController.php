@@ -34,6 +34,15 @@ class MediasController extends Controller
         }
         // On ajoute un layout = modal.php
         $this->layout = 'modal';
-        //debug($this->request);
+        
+        $d['images'] = $this->Media->find(array(
+            'conditions' => array(
+                'post_id' => $id
+            )
+            ));
+        $d['post_id'] = $id;
+        
+        // On envoie les données à la vue
+        $this->set($d);
     }
 }
