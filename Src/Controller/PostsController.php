@@ -62,15 +62,30 @@ class PostsController extends Controller{
 		$this->loadModel('Post');
 		$d['id'] = '';
 
-		// Pour valider ses posts 
-		if($this->Post->validates($this->request->data))
+				 
+		if ($this->request->data) 
 		{	
-			// Faire notre validation de données
-			// On va declarer le validate dans le model.php
-		}
-		else
-		{
-			$this->Session->setFlash("Merci de corriger vos informations", 'erreur');
+			// Pour valider ses posts
+			if ($this->Post->validates($this->request->data))
+			{
+				// Faire notre validation de données
+				// On va declarer le validate dans le model.php
+
+				$this->request->data->type = 'post';
+				$this->request->data->created = date('Y-m-d h:i:s');
+				
+				// Pour envoyer les données
+				$this->Post->save($this->request->data);
+
+				// Envoyer un message en session(contenu bien mofidier)
+				$this->Session->setFlash("Le contenu à bien été modifier");
+
+				// On va rediriger vers le post index
+				$this->redirect('admin/posts/index');
+
+			} else {
+				$this->Session->setFlash("Merci de corriger vos informations", 'erreur');
+			}
 		}		
 	}
 	
