@@ -27,5 +27,4 @@ class Session
             return $html;
         }
     }
-    
 }

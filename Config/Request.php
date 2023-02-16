@@ -1,7 +1,6 @@
 <?php
-class Request{
-	
-
+class Request
+{
 	public $url; 	// URL appellé par l'utilisateur
 	public $page = 1;
 	public $prefix = '';
@@ -27,8 +26,7 @@ class Request{
 			{
 				$this->data->$k = $v;
 			}
+			//debug($this->data);
 		}
 	}
-
-
 }

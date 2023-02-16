@@ -12,7 +12,7 @@ class Router
 	/**
 	* Permet de parser une url
 	* @param $url Url à parser
-	* @return tableau contenant les paramètres
+	* @return //tableau contenant les paramètres
 	**/
 	static function parse($url,$request){
 		$url = trim($url,'/'); 
@@ -100,7 +100,7 @@ class Router
 						$v['redir'] = str_replace(":$k",$w,$v['redir']); 
 					}
 				}
-				// return __BASE_URL__.str_replace('//','/','/'.$v['redir']).$match['args']; 
+				return __BASE_URL__.str_replace('//','/','/'.$v['redir']).$match['args']; 
 			}
 		}
 		foreach(self::$prefixes as $k=>$v)
@@ -112,10 +112,9 @@ class Router
 		}
 		return __BASE_URL__.'/'.$url;
 	}
-
 	static function webroot($url)
 	{
 		trim($url, '/');
-		return __BASE_URL__.'/'.$url;
+		return __BASE_URL__ . '/' . $url;
 	}
 }

@@ -1,6 +1,5 @@
 <?php
-
-// pour envoyer notre page admin vers un template html vers un layout
+//envoyer notre page admin vers un template html de notre layout
 
 if($this->request->prefix == 'admin')
 {

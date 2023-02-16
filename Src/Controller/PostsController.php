@@ -6,7 +6,6 @@ class PostsController extends Controller{
 		$perPage = 1; 
 		$this->loadModel('Post');	
 		$condition = array('online' => 1,'type'=>'post'); 
-
 		$d['posts'] = $this->Post->find(array(
 			'conditions' => $condition,
 			'limit' => ($perPage*($this->request->page-1)).','.$perPage
@@ -47,7 +46,7 @@ class PostsController extends Controller{
 		));
 		$d['total'] = $this->Post->findCount($condition); 
 		$d['page'] = ceil($d['total'] / $perPage);
-		$this->set($d); 
+		$this->set($d);
 	}
 
 	function admin_delete($id)
@@ -58,45 +57,40 @@ class PostsController extends Controller{
 		$this->redirect('admin/posts/index');
 	}
 	function admin_edit($id = null)
-	{	
+	{
 		$this->loadModel('Post');
 		$d['id'] = '';
-
-		// Indique qu'il y a bien de la données dans les input	 
-		if ($this->request->data) 
-		{	
-			// Pour valider ses posts
-			if ($this->Post->validates($this->request->data))
+		if($this->request->data)
+		{
+			if($this->Post->validates($this->request->data))
 			{
-				// Faire notre validation de données
-				// On va declarer le validate dans le model.php
-
 				$this->request->data->type = 'post';
 				$this->request->data->created = date('Y-m-d h:i:s');
-				
-				// Pour envoyer les données
 				$this->Post->save($this->request->data);
-
-				// Envoyer un message en session(contenu bien mofidier)
-				$this->Session->setFlash("Le contenu à bien été modifier");
-
-				// On va rediriger vers le post index
+				$this->Session->setFlash("La modification a bien été prise en compte !");
 				$this->redirect('admin/posts/index');
-
-			} else {
-				$this->Session->setFlash("Merci de corriger vos informations", 'erreur');
+			}
+			else
+			{
+				$this->Session->setFlash("Merci de corriger vos informations ", 'error');
 			}
 		}
-		// pour avoir de l'affichage dans les input
 		elseif($id)
 		{
+			$conditions = ['id' => $id];
 			$this->request->data = $this->Post->findFirst(array(
-				'conditions' => array('id' => $id)
+				'conditions' => $conditions
 			));
-
 			$d['id'] = $id;
 		}
-		$this->set($d); 		
+		$this->set($d);
 	}
-	
+
+	function admin_tinymce()
+	{
+		$this->loadModel('Post');
+		$this->layout = 'modal';
+		$d['posts'] = $this->Post->find();
+		$this->set($d);
+	}
 }

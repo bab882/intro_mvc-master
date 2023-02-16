@@ -1,22 +1,18 @@
 <?php
-
-
-
 class Model
 {
-	
 	static $connections = array(); 
 
-	public $id;
 	public $conf = 'default';
 	public $table = false; 
 	public $db; 
-	public $primaryKey = 'id';
-	public $validate = []; 
+	public $primaryKey = 'id'; 
+	public $id;
+	public $validate = [];
 	public $errors = [];
-	
 
-	public function __construct(){
+	public function __construct()
+	{
 		// J'initialise qques variable
 		if($this->table === false){
 			$this->table = strtolower(get_class($this)).'s'; 
@@ -46,11 +42,9 @@ class Model
 				die('Impossible de se connecter à la base de donnée'); 
 			}
 		}
-		
-		 
 	}
-
-	public function find($req){
+	public function find($req)
+	{
 		$sql = 'SELECT ';
 
 		if(isset($req['fields'])){
@@ -95,19 +89,18 @@ class Model
 		$pre->execute(); 
 		return $pre->fetchAll(PDO::FETCH_OBJ);
 	}
-
-	public function findFirst($req){
+	public function findFirst($req)
+	{
 		return current($this->find($req)); 
 	}
-
-	public function findCount($conditions){
+	public function findCount($conditions)
+	{
 		$res = $this->findFirst(array(
 			'fields' => 'COUNT('.$this->primaryKey.') as count',
 			'conditions' => $conditions
 			));
 		return $res->count;  
 	}
-
 	public function delete($id)
 	{
 		$sql = "DELETE FROM {$this->table} WHERE {$this->primaryKey} = $id";
@@ -115,40 +108,30 @@ class Model
 	}
 	public function save($data)
 	{
-		// Pour récupérer les id
 		$key = $this->primaryKey;
-		// Les champs qui seront présent dans la base de données.
 		$fields = [];
-		// La variables pour créer un nouveau tableau
 		$d = [];
-
-		foreach($data as $k => $v)
+		foreach($data as $k =>$v)
 		{
 			if($k != $this->primaryKey)
 			{
-				// On va créer nos champs dans la base de données
 				$fields[] = "$k=:$k";
-
-				// Dans le tableau d on va y mettre sa valeur
 				$d[":$k"] = $v;
 			}
 			elseif(!empty($v))
 			{
-				// Pour nous retourner notre clé et notre valeur
 				$d[":$k"] = $v;
 			}
 		}
-		// On vérifie si il y a des données dans la data->key
 		if(isset($data->$key) && !empty($data->$key))
 		{
-			$sql = 'UPDATE '.$this->table.' SET '.implode(',', $fields).' WHERE '.$key.' =:' .$key;
+			$sql = 'UPDATE '.$this->table.' SET '.implode(',',$fields).' WHERE '.$key.'=:'.$key;
 			$this->id = $data->$key;
 			$action = 'update';
 		}
-		// Pour inserer dans la base de données
-		else 
+		else
 		{
-			$sql = 'INSERT INTO '.$this->table.' SET '.implode(',', $fields);
+			$sql = 'INSERT INTO '.$this->table.' SET '.implode(',',$fields);
 			$action = 'insert';
 		}
 		$pre = $this->db->prepare($sql);
@@ -164,14 +147,12 @@ class Model
 		$errors = [];
 		foreach($this->validate as $k => $v)
 		{
-			// On va ajouter 3 conditions
 			if(!isset($data->$k))
 			{
 				$errors[$k] = $v['message'];
 			}
 			else
-			{	
-				// Pour laisser un message d'erreur en cas de champs non rempli
+			{
 				if($v['rule'] == 'notEmpty')
 				{
 					if(empty($data->$k))
@@ -179,15 +160,13 @@ class Model
 						$errors[$k] = $v['message'];
 					}
 				}
-				elseif(!preg_match('/^'.$v['rule'].'$/', $data->$k))
+				elseif(!preg_match('/^'.$v['rule'].'$/',$data->$k))
 				{
 					$errors[$k] = $v['message'];
 				}
 			}
 		}
 		$this->errors = $errors;
-		
-		// envoyer le message à notre formulaire
 		if(isset($this->Form))
 		{
 			$this->Form->errors = $errors;
@@ -196,6 +175,9 @@ class Model
 		{
 			return true;
 		}
-		return false;
+		else
+		{
+			return false;
+		}
 	}
 }
