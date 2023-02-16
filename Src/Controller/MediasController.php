@@ -45,10 +45,9 @@ class MediasController extends Controller
         $media = $this->Media->findFirst(array(
             'conditions' => ['id' => $id]
         ));
-        // Suppression de l'image sur le serveur
         unlink(__WEBROOT__ . __DS__ . 'img' . __DS__ . $media->file);
         $this->Media->delete($id);
-        $this->Session->setFlash('Votre image à bien été supprimée !');
-        $this->redirect('admin/medias/index/' . $media->post_id);
+        $this->Session->setFlash('Votre image a bien été supprimée !');
+        $this->redirect('admin/medias/index/'. $media->post_id);
     }
 }

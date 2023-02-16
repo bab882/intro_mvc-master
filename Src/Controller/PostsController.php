@@ -1,8 +1,9 @@
 <?php 
-class PostsController extends Controller{
-	
+class PostsController extends Controller
+{
 
-	function index(){
+	function index()
+	{
 		$perPage = 1; 
 		$this->loadModel('Post');	
 		$condition = array('online' => 1,'type'=>'post'); 
@@ -17,7 +18,8 @@ class PostsController extends Controller{
 		$this->set($d); 
 	}
 
-	function view($id,$slug){
+	function view($id,$slug)
+	{
 		$this->loadModel('Post');
 		$d['post']  = $this->Post->findFirst(array(
 			'fields'	 => 'id,slug,content,name',
@@ -31,7 +33,6 @@ class PostsController extends Controller{
 		}
 		$this->set($d);
 	}
-
 	/**
 	 * Admin
 	 */
@@ -59,7 +60,26 @@ class PostsController extends Controller{
 	function admin_edit($id = null)
 	{
 		$this->loadModel('Post');
-		$d['id'] = '';
+		
+		if($id === null)
+		{
+			$post = $this->Post->findFirst(array(
+				'conditions' => ['online' => -1]
+			));
+			if(!empty($post))
+			{
+				$id = $post->id;
+			}
+			else
+			{
+				$this->Post->save(array(
+					'online' => -1
+				));
+				$id = $this->Post->id;
+			}
+		}
+		$d['id'] = $id;
+		echo $d['id'];
 		if($this->request->data)
 		{
 			if($this->Post->validates($this->request->data))
@@ -75,7 +95,7 @@ class PostsController extends Controller{
 				$this->Session->setFlash("Merci de corriger vos informations ", 'error');
 			}
 		}
-		elseif($id)
+		else
 		{
 			$conditions = ['id' => $id];
 			$this->request->data = $this->Post->findFirst(array(
@@ -83,9 +103,9 @@ class PostsController extends Controller{
 			));
 			$d['id'] = $id;
 		}
+		//debug($d);
 		$this->set($d);
 	}
-
 	function admin_tinymce()
 	{
 		$this->loadModel('Post');

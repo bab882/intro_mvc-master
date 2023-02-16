@@ -1,8 +1,9 @@
+<?php //debug($posts); ?>
 <ul>
     <?php foreach($posts as $k => $v): ?>
         <li>
             <a href="#" onclick="FileBrowserDialogue.sendURL('<?php echo Router::url($v->type . 's/view/id:' . $v->id . '/slug:' . $v->slug);?>')">
-                <?php echo ucfirst($v->type); ?> :  <?php echo $v->type; ?>
+                <?php echo ucfirst($v->type); ?> : <?php echo $v->name; ?>
             </a>
         </li>
     <?php endforeach; ?>
@@ -16,9 +17,12 @@
         },
         sendURL:function(URL)
         {
+            console.log(URL);
             let win = tinyMCEPopup.getWindowArg("window");
+            console.log(win);
             win.document.getElementById(tinyMCEPopup.getWindowArg("input")).value = URL;
-            if(typeof(win.ImageDialog) != undefined)
+            console.log(URL);
+            if(typeof(win.ImageDialog) != 'undefined')
             {
                 if(win.ImageDialog.getImageData)
                 {
