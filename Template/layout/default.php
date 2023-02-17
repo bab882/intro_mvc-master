@@ -3,7 +3,7 @@
     <head> 
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/> 
     <title><?php echo isset($title_for_layout)?$title_for_layout:'Mon site'; ?></title> 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://getbootstrap.com/1.2.0/assets/css/bootstrap-1.2.0.min.css">
     </head> 
     <body>       
       
@@ -14,7 +14,7 @@
               <ul class="nav"> 
                 <?php $pagesMenu = $this->request('Pages','getMenu'); ?>
                 <?php foreach($pagesMenu as $p): ?>
-                    <li><a href="<?php echo __BASE_URL__.'pages/view/'.$p->id; ?>" title="<?php echo $p->name; ?>"><?php echo $p->name; ?></a></li> 
+                    <li><a href="<?php echo Router::url('pages/view/id:'.$p->id.'/slug:'.$p->slug); ?>" title="<?php echo $p->name; ?>"><?php echo $p->name; ?></a></li> 
                 <?php endforeach; ?>
                 <li><a href="<?php echo Router::url('posts/index'); ?>">Actualité</a></li>
               </ul>
@@ -23,8 +23,8 @@
         </div> 
  
         <div class="container" style="padding-top:60px;">
-            <?= $this->Session->flash(); ?>
-        	  <?php echo $content_for_layout; ?>
+            <?php echo $this->Session->flash(); ?>
+        	<?php echo $content_for_layout; ?>
         </div>
          
     </body> 

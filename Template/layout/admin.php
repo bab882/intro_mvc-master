@@ -3,7 +3,7 @@
     <head> 
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/> 
     <title><?php echo isset($title_for_layout)?$title_for_layout:'Administration'; ?></title> 
-    <link rel="stylesheet" href="//getbootstrap.com/1.2.0/assets/css/bootstrap-1.2.0.min.css">
+    <link rel="stylesheet" href="https://getbootstrap.com/1.2.0/assets/css/bootstrap-1.2.0.min.css">
     <link rel="stylesheet" href="<?php echo Router::webroot('css/jqueryui/jquery-ui-1.8.16.custom.css'); ?>">
     </head> 
     <body>       

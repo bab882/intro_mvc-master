@@ -1,14 +1,14 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <title>Document</title>
-</head>
-<body>
-    <?php $this->Session->flash();?>
-    <?php echo $content_for_layout; ?>
-</body>
+<!DOCTYPE html> 
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr" lang="fr"> 
+    <head> 
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/> 
+    <title><?php echo isset($title_for_layout)?$title_for_layout:'Administration'; ?></title> 
+    <link rel="stylesheet" href="https://getbootstrap.com/1.2.0/assets/css/bootstrap-1.2.0.min.css">
+    </head> 
+    <body>       
+      
+            <?php echo $this->Session->flash(); ?>
+        	<?php echo $content_for_layout; ?>
+         
+    </body> 
 </html>

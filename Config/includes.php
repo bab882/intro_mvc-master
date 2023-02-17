@@ -1,13 +1,12 @@
-<?php
-
-require 'Session.php';
-require 'Form.php';
+<?php 
+require 'Session.php'; 
+require 'Form.php'; 
 require 'functions.php'; 
-require 'Router.php';
+require 'Router.php'; 
 
-require __CONFIG__.'/conf.php'; 
+require ROOT.DS.'config'.DS.'conf.php'; 
 
 require 'Request.php'; 
 require 'Controller.php'; 
 require 'Model.php'; 
-require 'Dispatcher.php';
+require 'Dispatcher.php'; 

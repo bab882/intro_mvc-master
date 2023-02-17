@@ -1,5 +1,7 @@
 <?php
-class Post extends Model{
+class Category extends Model{
+
+	var $table = 'categories'; 
 
 	var $validate = array(
 		'name' => array(

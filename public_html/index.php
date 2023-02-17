@@ -1,13 +1,17 @@
 <?php
+
+error_reporting(0);
+
+
 $debut = microtime(true); 
 
-define('__WEBROOT__',dirname(__FILE__)); 
-define('__ROOT__',dirname(__WEBROOT__)); 
-define('__DS__',DIRECTORY_SEPARATOR);
-define('__CONFIG__',__ROOT__.__DS__.'Config'); 
-define('__BASE_URL__',dirname(dirname($_SERVER['SCRIPT_NAME']))); 
+define('WEBROOT',dirname(__FILE__)); 
+define('ROOT',dirname(WEBROOT)); 
+define('DS',DIRECTORY_SEPARATOR);
+define('CORE',ROOT.DS.'Config'); 
+define('BASE_URL',dirname(dirname($_SERVER['SCRIPT_NAME']))); 
 
-require __CONFIG__.__DS__.'includes.php'; 
+require CORE.DS.'includes.php'; 
 new Dispatcher(); 
 
 ?>

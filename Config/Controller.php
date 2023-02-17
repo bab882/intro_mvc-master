@@ -13,94 +13,93 @@ class Controller{
 	* Constructeur
 	* @param $request Objet request de notre application
 	**/
-	function __construct($request = null)
-	{
+	function __construct($request = null){
+		$this->Session = new Session(); 
+		$this->Form = new Form($this); 
+
 		if($request){
 			$this->request = $request; 	// On stock la request dans l'instance	
-			
-			$this->Session = new Session();  // démarrer une session
-			
-			$this->Form = new Form($this);		// loader le formulaire
+			require ROOT.DS.'Config'.DS.'hook.php'; 		
 		}
-		require __ROOT__ . __DS__ . 'Config' . __DS__ . 'Hook.php';
 		
 	}
+
+
 	/**
 	* Permet de rendre une vue
 	* @param $view Fichier à rendre (chemin depuis view ou nom de la vue) 
 	**/
-	public function render($view)
-	{
+	public function render($view){
 		if($this->rendered){ return false; }
 		extract($this->vars); 
 		if(strpos($view,'/')===0){
-			$view = __ROOT__.__DS__.'Template'.$view.'.php';
+			$view = ROOT.DS.'Template'.$view.'.php';
 		}else{
-			$view = __ROOT__.__DS__.'Template'.__DS__.$this->request->controller.__DS__.$view.'.php';
+			$view = ROOT.DS.'Template'.DS.$this->request->controller.DS.$view.'.php';
 		}
 		ob_start(); 
 		require($view);
 		$content_for_layout = ob_get_clean();  
-		require __ROOT__.__DS__.'Template'.__DS__.'layout'.__DS__.$this->layout.'.php'; 
+		require ROOT.DS.'Template'.DS.'layout'.DS.$this->layout.'.php'; 
 		$this->rendered = true; 
 	}
+
+
 	/**
 	* Permet de passer une ou plusieurs variable à la vue
 	* @param $key nom de la variable OU tableau de variables
 	* @param $value Valeur de la variable
 	**/
-	public function set($key,$value=null)
-	{
+	public function set($key,$value=null){
 		if(is_array($key)){
 			$this->vars += $key; 
 		}else{
 			$this->vars[$key] = $value; 
 		}
 	}
+
 	/**
 	* Permet de charger un model
 	**/
-	function loadModel($name)
-	{
+	function loadModel($name){
 		if(!isset($this->$name)){
-			$file = __ROOT__.__DS__.'Src'. __DS__.'Model' . __DS__.$name.'.php'; 
+			$file = ROOT.DS. 'Src' . DS . 'Model'.DS.$name.'.php'; 
 			require_once($file);
 			$this->$name = new $name();
-		}
-		//savoir si le formulaire est passé ou pas et ensuite le charger dans un obj
-		if(isset($this->Form))
-		{
-			$this->$name->Form = $this->Form;
+			if(isset($this->Form)){
+				$this->$name->Form = $this->Form;  
+			}
 		}
 	}
+
 	/**
 	* Permet de gérer les erreurs 404
 	**/
-	function e404($message)
-	{	
+	function e404($message){	
 		header("HTTP/1.0 404 Not Found");
 		$this->set('message',$message); 
 		$this->render('/errors/404');
 		die();
 	}
+
 	/**
 	* Permet d'appeller un controller depuis une vue
 	**/
-	function request($controller,$action)
-	{
+	function request($controller,$action){
 		$controller .= 'Controller';
-		require_once __ROOT__.__DS__.'Src'.__DS__.'Controller'. __DS__.$controller.'.php';
+		require_once ROOT.DS.'Src'.DS.'Controller'.DS.$controller.'.php';
 		$c = new $controller();
 		return $c->$action(); 
 	}
+
 	/**
 	* Redirect
 	**/
-	function redirect($url,$code = null)
-	{
+	function redirect($url,$code = null ){
 		if($code == 301){
 			header("HTTP/1.1 301 Moved Permanently");
 		}
 		header("Location: ".Router::url($url)); 
 	}
 }
+?>
